@@ -1,60 +1,61 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div class="main-container">
+    <div class="selection-container">
+      <img class="vue-image" src="./assets/logo.png">
+      <MetricSelector :initalMetric="selectedMetric" @selectedMetricUpdated="onMetricUpdate" />
+      <ChartTypeSelector :initalType="chartType" @chartTypeUpdated="onChartTypeUpdate" />
+    </div>
+    
+    <Charts :selectedMetric="selectedMetric" :chartType="chartType"/>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import Charts from './components/Charts'
+import MetricSelector from './components/MetricSelector'
+import ChartTypeSelector from './components/ChartTypeSelector'
+
 export default {
-  name: 'app',
+  name: "App",
+  components: {
+    Charts,
+    MetricSelector,
+    ChartTypeSelector
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      chartType: 'LineChart',
+      selectedMetric: ''
+    }
+  },
+  created () {
+    // Initial store request to get data
+    this.getAllStats();
+  },
+  methods: {
+    ...mapActions('charts', ['getAllStats']),
+    onChartTypeUpdate (value) {
+      this.chartType = value
+    },
+    onMetricUpdate(value) {
+      this.selectedMetric = value
     }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+<style scoped>
+ .main-container{
+   padding: 20px;
+ }
+ .selection-container {
+   display: flex;
+ }
+ .vue-image {
+   height: 20px;
+   width: 20px;
+   margin-right: 10px;
+   padding: 20px;
+ }
 </style>
