@@ -37,6 +37,7 @@
       }
     },
     computed: mapState({
+      // getting current store data for dynamically sent storeName (Namespace)
       state (state) {
         return state[this.storeName]
       }

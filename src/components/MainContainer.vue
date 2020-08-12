@@ -6,7 +6,12 @@
       <ChartTypeSelector :initalType="chartType" @chartTypeUpdated="onChartTypeUpdate" />
     </div>
     
-    <Charts :selectedMetric="selectedMetric" :storeName="storeName" :chartContainerId="chartContainerId" :chartType="chartType"/>
+    <Charts 
+      :selectedMetric="selectedMetric" 
+      :storeName="storeName" 
+      :chartContainerId="chartContainerId" 
+      :chartType="chartType"
+    />
   </div>
 </template>
 
