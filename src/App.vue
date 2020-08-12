@@ -1,61 +1,41 @@
 <template>
   <div class="main-container">
-    <div class="selection-container">
-      <img class="vue-image" src="./assets/logo.png">
-      <MetricSelector :initalMetric="selectedMetric" @selectedMetricUpdated="onMetricUpdate" />
-      <ChartTypeSelector :initalType="chartType" @chartTypeUpdated="onChartTypeUpdate" />
-    </div>
-    
-    <Charts :selectedMetric="selectedMetric" :chartType="chartType"/>
+    <MainContainer :chartContainerId="containerId" :storeName="storeName"/>
+    <MainContainer :chartContainerId="newContainerId" :storeName="newStoreName"/>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import Charts from './components/Charts'
-import MetricSelector from './components/MetricSelector'
-import ChartTypeSelector from './components/ChartTypeSelector'
+import MainContainer from './components/MainContainer'
 
 export default {
   name: "App",
   components: {
-    Charts,
-    MetricSelector,
-    ChartTypeSelector
+    MainContainer
   },
   data () {
     return {
-      chartType: 'LineChart',
-      selectedMetric: ''
+      containerId: 'google-chart',
+      newContainerId: 'new-google-chart',
+      storeName: 'charts',
+      newStoreName: 'newCharts'
     }
   },
   created () {
     // Initial store request to get data
     this.getAllStats();
+    this.getNewAllStats();
   },
   methods: {
     ...mapActions('charts', ['getAllStats']),
-    onChartTypeUpdate (value) {
-      this.chartType = value
-    },
-    onMetricUpdate(value) {
-      this.selectedMetric = value
-    }
+    ...mapActions('newCharts', ['getNewAllStats'])
   }
 }
 </script>
 
 <style scoped>
  .main-container{
-   padding: 20px;
- }
- .selection-container {
-   display: flex;
- }
- .vue-image {
-   height: 20px;
-   width: 20px;
-   margin-right: 10px;
    padding: 20px;
  }
 </style>

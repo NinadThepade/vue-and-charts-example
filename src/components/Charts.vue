@@ -1,5 +1,5 @@
 <template>
-  <div id="google-chart"></div>
+  <div :id="chartContainerId"></div>
 </template>
 
 <script>
@@ -16,6 +16,14 @@
       'chartType': {
         type: [String],
         required: true
+      },
+      'chartContainerId': {
+        type: [String],
+        required: true
+      },
+      'storeName': {
+        type: [String],
+        required: true
       }
     },
     methods: {
@@ -23,14 +31,16 @@
         // User must select a metric to view chart
         if(!this.selectedMetric) return
 
-        let chartData = this.selectedMetric === 'all' ? this.combinedStatsData : this[this.selectedMetric + 'Data'];
+        let chartData = this.selectedMetric === 'all' ? this.state.combinedStatsData : this.state[this.selectedMetric + 'Data'];
 
-        loadGoogleCharts(this.chartType, chartData)
+        loadGoogleCharts(this.chartType, chartData, this.chartContainerId)
       }
     },
-    computed: {
-      ...mapState('charts', ['clickThruRateData', 'salesData', 'pageViewsData', 'ordersData', 'combinedStatsData'])
-    },
+    computed: mapState({
+      state (state) {
+        return state[this.storeName]
+      }
+    }),
     watch: {
       selectedMetric() {
         this.paintChart()

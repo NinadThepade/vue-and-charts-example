@@ -22,15 +22,16 @@ export function getChartsLoader () {
 /* 
  * chartType: Specifies type of chart to be drawn [e.g: LineChart, ColumnChart]
  * chartData: contains data about both rows and columns
+ * chartContainerId: Id of the container where the chart is displayed
 */
-export default function loadGoogleCharts (chartType, chartData) {
+export default function loadGoogleCharts (chartType, chartData, chartContainerId) {
   return getChartsLoader().then(loader => {
     loader.load('current', {'packages':['corechart']});
     loader.setOnLoadCallback(drawChart);
 
     function drawChart() {
       let data = new google.visualization.DataTable();
-      let chart = new google.visualization[chartType](document.getElementById('google-chart'));
+      let chart = new google.visualization[chartType](document.getElementById(chartContainerId));
 
       // Setting up the columns dynamically (especially for 'All' case)
       chartData.columnData.forEach(element => {
