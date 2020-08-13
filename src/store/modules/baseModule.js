@@ -1,3 +1,7 @@
+/*
+* Base Module contains all the common states and mutations used in both stores
+*/
+
 import {deepCopyObject} from '../../utils/utils'
 import { METRICS } from '../../constants'
 

@@ -1,5 +1,6 @@
 import dataStore from '../../api/index'
 
+// Getting all common states, getters and mutations from base module
 import BaseModule from './baseModule';
 var baseModule = new BaseModule('/api/users');
 
